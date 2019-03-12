@@ -183,6 +183,8 @@ public:
     mapped_type&       at(const key_type& k);
     const mapped_type& at(const key_type& k) const;
 
+    bool contains(const key_type& k) const; // C++20
+
     size_type bucket_count() const noexcept;
     size_type max_bucket_count() const noexcept;
 
@@ -357,6 +359,8 @@ public:
     size_type count(const key_type& k) const;
     pair<iterator, iterator>             equal_range(const key_type& k);
     pair<const_iterator, const_iterator> equal_range(const key_type& k) const;
+
+    bool contains(const key_type& k) const; // C++20
 
     size_type bucket_count() const noexcept;
     size_type max_bucket_count() const noexcept;
@@ -1290,6 +1294,11 @@ public:
     mapped_type&       at(const key_type& __k);
     const mapped_type& at(const key_type& __k) const;
 
+#if _LIBCPP_STD_VER > 17
+    _LIBCPP_INLINE_VISIBILITY
+    bool contains(const key_type& __k) const { return  __table_.find(__k) !=  __table_.end(); }
+#endif
+
     _LIBCPP_INLINE_VISIBILITY
     size_type bucket_count() const _NOEXCEPT {return __table_.bucket_count();}
     _LIBCPP_INLINE_VISIBILITY
@@ -1982,6 +1991,12 @@ public:
     _LIBCPP_INLINE_VISIBILITY
     pair<const_iterator, const_iterator> equal_range(const key_type& __k) const
         {return __table_.__equal_range_multi(__k);}
+
+#if _LIBCPP_STD_VER > 17
+    _LIBCPP_INLINE_VISIBILITY
+    bool contains(const key_type& __k) const
+        { return  __table_.find(__k) !=  __table_.end(); }
+#endif
 
     _LIBCPP_INLINE_VISIBILITY
     size_type bucket_count() const _NOEXCEPT {return __table_.bucket_count();}
